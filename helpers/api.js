@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 
 const baseRoute = "https://api.datamuse.com/";
 
@@ -6,10 +6,12 @@ const api = axios.create({
   baseURL: baseRoute,
 });
 
-export default class RhymeAPI {
+class RhymeAPI {
   static routes = {
     main: "words?",
     rhyme: "rel_rhy=",
+    definition: "&md=d",
+    spelledLike: "sp=",
     related: "ml=",
     adjective: "rel_jjb=",
     topics: "topics=",
@@ -17,29 +19,42 @@ export default class RhymeAPI {
     associatedBy: "rel_trg=",
   };
 
-  getRhyme(word) {
-    return api.get(this.routes.main + this.rhyme + word);
+  static getRhyme(word) {
+    return api.get(this.routes.main + this.routes.rhyme + word);
   }
 
-  getSynonym(word) {
-    return api.get(this.routes.main + this.related + word);
-  }
-
-  getSuggestion(word) {
-    return api.get(this.routes.main + this.suggest + word);
-  }
-
-  getAdjective(word) {
-    return api.get(this.routes.main + this.adjective + word);
-  }
-
-  getAdjectiveByTopic(word, topic) {
+  static getDefinition(word) {
     return api.get(
-      this.routes.main + this.adjective + word + "?" + this.topics + topic
+      this.routes.main + this.routes.spelledLike + word + this.routes.definition
     );
   }
 
-  getAssociatedBy(word) {
-    return api.get(this.routes.main + this.associatedBy + word);
+  static getSynonym(word) {
+    return api.get(this.routes.main + this.routes.related + word);
+  }
+
+  static getSuggestion(word) {
+    return api.get(this.routes.main + this.routes.suggest + word);
+  }
+
+  static getAdjective(word) {
+    return api.get(this.routes.main + this.routes.adjective + word);
+  }
+
+  static getAdjectiveByTopic(word, topic) {
+    return api.get(
+      this.routes.main +
+        this.routes.adjective +
+        word +
+        "?" +
+        this.routes.topics +
+        topic
+    );
+  }
+
+  static getAssociatedBy(word) {
+    return api.get(this.routes.main + this.routes.associatedBy + word);
   }
 }
+
+module.exports = RhymeAPI;
