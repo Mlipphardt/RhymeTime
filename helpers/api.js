@@ -15,7 +15,7 @@ class RhymeAPI {
     related: "ml=",
     adjective: "rel_jjb=",
     topics: "topics=",
-    suggest: "/sug?s=",
+    suggest: "sug?s=",
     associatedBy: "rel_trg=",
   };
 
@@ -34,7 +34,7 @@ class RhymeAPI {
   }
 
   static getSuggestion(word) {
-    return api.get(this.routes.main + this.routes.suggest + word);
+    return api.get(this.routes.suggest + word);
   }
 
   static getAdjective(word) {
